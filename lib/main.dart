@@ -40,19 +40,74 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController latController = TextEditingController();
+  TextEditingController lonController = TextEditingController();
+
+  @override
+  void initState() {
+    // empty setState forces a re-render
+    latController.addListener(() => setState(() {}));
+    lonController.addListener(() => setState(() {}));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    latController.dispose();
+    lonController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('TODO'),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: TextField(
+                    controller: latController,
+                    decoration: const InputDecoration(
+                      labelText: 'Latitude',
+                      hintText: '0.0',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const Spacer(flex: 2),
+                Expanded(
+                  flex: 6,
+                  child: TextField(
+                    controller: lonController,
+                    decoration: const InputDecoration(
+                      labelText: 'Longitude',
+                      hintText: '0.0',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          Text(
+              'Latitude: ${latController.text.isEmpty ? 0.0 : latController.text}'),
+          Text(
+              'Longitude: ${lonController.text.isEmpty ? 0.0 : lonController.text}'),
+        ],
       ),
     );
   }
