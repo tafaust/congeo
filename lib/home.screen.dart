@@ -1,5 +1,6 @@
 import 'package:congeo/coordinate-system.entity.dart';
 import 'package:congeo/home.viewmodel.dart';
+import 'package:congeo/widget/angle-input.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:proj4dart/proj4dart.dart';
@@ -14,59 +15,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final Logger _log = Logger();
-  late TextEditingController latController;
-  late TextEditingController lonController;
-
   final HomeViewmodel _viewmodel = HomeViewmodelImpl();
-
-  CoordinateSystem dropdownValue = allCoords[0];
 
   @override
   void initState() {
     _viewmodel.sourceProjection.add(Projection.WGS84);
     // _viewmodel.destinationProjection.add(Projection.GOOGLE);
-
-    // empty setState forces a re-render
-    latController = TextEditingController()
-      ..addListener(() {
-        double? x = double.tryParse(latController.text);
-        double? y = double.tryParse(lonController.text);
-        if (x == null) {
-          // TODO clear _viewmodel.destinationPoint.stream
-          return;
-        }
-        if (y == null) {
-          // TODO clear _viewmodel.destinationPoint.stream
-          return;
-        }
-        Point currentInput = Point(x: x, y: y);
-        _log.d(currentInput);
-        _viewmodel.inputSourcePoint.add(currentInput);
-      });
-    lonController = TextEditingController()
-      ..addListener(() {
-        double? x = double.tryParse(latController.text);
-        double? y = double.tryParse(lonController.text);
-        if (x == null) {
-          // TODO clear _viewmodel.destinationPoint.stream
-          return;
-        }
-        if (y == null) {
-          // TODO clear _viewmodel.destinationPoint.stream
-          return;
-        }
-        Point currentInput = Point(x: x, y: y);
-        _log.d(currentInput);
-        _viewmodel.inputSourcePoint.add(currentInput);
-      });
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    latController.dispose();
-    lonController.dispose();
-    super.dispose();
   }
 
   @override
@@ -90,65 +45,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Text('WGS 84'),
                 const Icon(Icons.arrow_right_alt),
                 StreamBuilder<CoordinateSystem>(
-                    stream: _viewmodel.destinationProjection,
-                    builder:
-                        (context, AsyncSnapshot<CoordinateSystem> snapshot) {
-                      return DropdownButton<CoordinateSystem>(
-                        hint: const Text('Select target coordinate system'),
-                        value: snapshot.data,
-                        icon: const Icon(Icons.arrow_drop_down),
-                        onChanged: (CoordinateSystem? newValue) {
-                          _log.d(newValue?.projection);
-                          if (newValue != null) {
-                            _viewmodel.destinationProjection.add(newValue);
-                          }
-                        },
-                        items: allCoords
-                            .map<DropdownMenuItem<CoordinateSystem>>(
-                                (CoordinateSystem cs) {
-                          return DropdownMenuItem<CoordinateSystem>(
-                            value: cs,
-                            child: Text(cs.name),
-                          );
-                        }).toList(),
-                      );
-                    }),
+                  stream: _viewmodel.destinationProjection,
+                  builder: (context, AsyncSnapshot<CoordinateSystem> snapshot) {
+                    return DropdownButton<CoordinateSystem>(
+                      hint: const Text('Select target coordinate system'),
+                      value: snapshot.data,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      onChanged: (CoordinateSystem? newValue) {
+                        _log.d(newValue?.projection);
+                        if (newValue != null) {
+                          _viewmodel.destinationProjection.add(newValue);
+                        }
+                      },
+                      items: allCoords.map<DropdownMenuItem<CoordinateSystem>>(
+                          (CoordinateSystem cs) {
+                        return DropdownMenuItem<CoordinateSystem>(
+                          value: cs,
+                          child: Text(cs.name),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
               ],
             ),
           ),
           const Divider(),
           Container(
             padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 6,
-                  child: TextField(
-                    controller: latController,
-                    decoration: const InputDecoration(
-                      labelText: 'Latitude',
-                      hintText: '0.0',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                const Spacer(flex: 2),
-                Expanded(
-                  flex: 6,
-                  child: TextField(
-                    controller: lonController,
-                    decoration: const InputDecoration(
-                      labelText: 'Longitude',
-                      hintText: '0.0',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-              ],
-            ),
+            child: AngleInputWidget(viewmodel: _viewmodel),
           ),
           const Divider(),
           StreamBuilder(

@@ -25,7 +25,7 @@ class CoordinateSystem {
   final String name;
   final String description;
   final String? proj4;
-  late final Projection projection;
+  late final Projection? projection;
 
   CoordinateSystem({
     required this.epsgCode,
@@ -33,11 +33,6 @@ class CoordinateSystem {
     required this.description,
     required this.proj4,
   }) {
-    // TODO refactor code so that I don't have to vomit looking at this
-    Projection? p = Projection.get(epsgCode);
-    if (p == null && proj4 != null) {
-      p = Projection.parse(proj4!);
-    }
-    projection = p!;
+    projection = Projection.get(epsgCode);
   }
 }
