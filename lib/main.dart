@@ -1,7 +1,36 @@
 import 'package:congeo/home.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:proj4dart/proj4dart.dart';
+
+void addProjections() {
+  for (var e in [
+    {
+      'epsg': '4088',
+      'proj4':
+          '+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +a=6371007 +b=6371007 +units=m +no_defs',
+    },
+    {
+      'epsg': '4087',
+      'proj4':
+          '+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    },
+    {
+      'epsg': '3395',
+      'proj4':
+          '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    },
+    {
+      'epsg': '6893',
+      'proj4':
+          '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +geoidgrids=egm08_25.gtx +vunits=m +no_defs'
+    },
+  ]) {
+    Projection.add('EPSG:${e['epsg']!}', e['proj4']!);
+  }
+}
 
 void main() {
+  addProjections();
   runApp(const MyApp());
 }
 

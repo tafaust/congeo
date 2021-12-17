@@ -12,7 +12,7 @@ List<CoordinateSystem> allCoords = [
     epsgCode: 'EPSG:4087',
     name: 'WGS 84 / World Equidistant Cylindrical',
     description:
-        'Origin is at intersection of equator and Greenwich meridian. Note: this is not the same as plotting unrectified graticule coordinates on a computer display using the so-called pseudo Plate Carrée method: here the grid units are metres. ',
+        'Origin is at intersection of equator and Greenwich meridian. Note: this is not the same as plotting unrectified graticule coordinates on a computer display using the so-called pseudo Plate Carrée method: here the grid units are metres.',
     unit: 'meter',
   ),
   CoordinateSystem(
@@ -57,7 +57,6 @@ class CoordinateSystem {
   final String name;
   final String description;
   final String unit;
-  // final String? proj4;
   late final Projection? projection;
 
   CoordinateSystem({
@@ -65,8 +64,8 @@ class CoordinateSystem {
     required this.name,
     required this.description,
     required this.unit,
-    // required this.proj4,
+    projection,
   }) {
-    projection = Projection.get(epsgCode);
+    this.projection = projection ?? Projection.get(epsgCode);
   }
 }
