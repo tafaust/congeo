@@ -2,23 +2,27 @@ import 'package:congeo/plugin/zoom-buttons.plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:proj4dart/proj4dart.dart';
+import 'package:logger/logger.dart';
 
 class FlutterMapWidget extends StatelessWidget {
-  final Point? point;
+  final Logger _log = Logger();
+  final LatLng? point;
 
-  const FlutterMapWidget({Key? key, required this.point}) : super(key: key);
+  FlutterMapWidget({Key? key, required this.point}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Point p = point ?? Point(x: 0, y: 0);
+    LatLng p = point ?? LatLng(0, 0);
     return FlutterMap(
       options: MapOptions(
-        center: point2latlng(p),
+        center: p,
         zoom: 2.0,
         plugins: [
           ZoomButtonsPlugin(),
         ],
+        onTap: (_, LatLng point) {
+          // TODO update the map point here (need to contact home.viewmodel)
+        },
       ),
       layers: [
         TileLayerOptions(
@@ -31,27 +35,26 @@ class FlutterMapWidget extends StatelessWidget {
         MarkerLayerOptions(
           markers: [
             Marker(
-              width: 10.0,
-              height: 10.0,
-              point: point2latlng(p),
-              builder: (ctx) => const FlutterLogo(),
+              width: 8.5,
+              height: 8.5,
+              point: p,
+              builder: (ctx) => const Icon(
+                Icons.location_pin,
+                color: Colors.red,
+              ),
             ),
           ],
         ),
       ],
       nonRotatedLayers: [
         ZoomButtonsPluginOption(
-          minZoom: 4,
-          maxZoom: 19,
+          minZoom: 1,
+          maxZoom: 10,
           mini: true,
           padding: 10,
           alignment: Alignment.bottomRight,
         ),
       ],
     );
-  }
-
-  LatLng point2latlng(Point point) {
-    return LatLng(point.x, point.y);
   }
 }
