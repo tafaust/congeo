@@ -37,12 +37,16 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 StreamBuilder<CoordinateSystem>(
                   stream: _viewmodel.sourceProjection,
                   builder: (context, AsyncSnapshot<CoordinateSystem> snapshot) {
                     return DropdownButton<CoordinateSystem>(
-                      hint: const Text('Source coordinate system'),
+                      hint: const Text(
+                        'Source coordinate system',
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       value: snapshot.data,
                       icon: const Icon(Icons.arrow_drop_down),
                       onChanged: (CoordinateSystem? newValue) {
@@ -55,7 +59,12 @@ class HomeScreen extends StatelessWidget {
                           (CoordinateSystem cs) {
                         return DropdownMenuItem<CoordinateSystem>(
                           value: cs,
-                          child: Text(cs.name),
+                          child: SizedBox(
+                              width: 200.0,
+                              child: Text(
+                                cs.name,
+                                overflow: TextOverflow.ellipsis,
+                              )),
                         );
                       }).toList(),
                     );
@@ -66,7 +75,10 @@ class HomeScreen extends StatelessWidget {
                   stream: _viewmodel.destinationProjection,
                   builder: (context, AsyncSnapshot<CoordinateSystem> snapshot) {
                     return DropdownButton<CoordinateSystem>(
-                      hint: const Text('Target coordinate system'),
+                      hint: const Text(
+                        'Target coordinate system',
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       value: snapshot.data,
                       icon: const Icon(Icons.arrow_drop_down),
                       onChanged: (CoordinateSystem? newValue) {
@@ -79,7 +91,12 @@ class HomeScreen extends StatelessWidget {
                           (CoordinateSystem cs) {
                         return DropdownMenuItem<CoordinateSystem>(
                           value: cs,
-                          child: Text(cs.name),
+                          child: SizedBox(
+                              width: 200.0,
+                              child: Text(
+                                cs.name,
+                                overflow: TextOverflow.ellipsis,
+                              )),
                         );
                       }).toList(),
                     );
