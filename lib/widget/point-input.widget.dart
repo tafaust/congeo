@@ -1,5 +1,6 @@
 import 'package:congeo/home.viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:proj4dart/proj4dart.dart';
 
@@ -82,6 +83,9 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
               hintText: '0.0',
               border: OutlineInputBorder(),
             ),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             keyboardType: TextInputType.number,
           ),
         ),
@@ -95,6 +99,9 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
               hintText: '0.0',
               border: OutlineInputBorder(),
             ),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             keyboardType: TextInputType.number,
           ),
         ),

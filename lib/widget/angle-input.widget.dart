@@ -1,5 +1,9 @@
+import 'package:congeo/coordinate-system.entity.dart';
 import 'package:congeo/home.viewmodel.dart';
+import 'package:congeo/widget/get-location.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:logger/logger.dart';
 import 'package:proj4dart/proj4dart.dart';
 
@@ -72,9 +76,10 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          flex: 6,
+        Flexible(
+          fit: FlexFit.loose,
           child: TextField(
             controller: latController,
             decoration: const InputDecoration(
@@ -82,12 +87,15 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
               hintText: '0.0',
               border: OutlineInputBorder(),
             ),
+            inputFormatters: <TextInputFormatter>[
+              // FilteringTextInputFormatter.digitsOnly,
+              FilteringTextInputFormatter.allow(RegExp(r'[\.,0-9]')),
+            ],
             keyboardType: TextInputType.number,
           ),
         ),
-        const Spacer(flex: 2),
-        Expanded(
-          flex: 6,
+        Flexible(
+          fit: FlexFit.loose,
           child: TextField(
             controller: lonController,
             decoration: const InputDecoration(
@@ -95,10 +103,34 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
               hintText: '0.0',
               border: OutlineInputBorder(),
             ),
+            inputFormatters: <TextInputFormatter>[
+              // FilteringTextInputFormatter.digitsOnly,
+              FilteringTextInputFormatter.allow(RegExp(r'[\.,0-9]')),
+            ],
             keyboardType: TextInputType.number,
           ),
         ),
+        GetLocationWidget(
+          onLocation: onLocation,
+        ),
       ],
     );
+  }
+
+  void onLocation(LocationData location) {
+    _log.d(location);
+    if (location.latitude is double && location.longitude is double) {
+      latController.text = location.latitude.toString();
+      lonController.text = location.longitude.toString();
+
+      Point currentInput = Point(
+        x: location.latitude!,
+        y: location.longitude!,
+      );
+      widget.vm.inputSourcePoint.add(currentInput);
+      widget.vm.sourceProjection.add(
+        allCoords.where((element) => element.epsgCode == 'EPSG:4326').first,
+      );
+    }
   }
 }

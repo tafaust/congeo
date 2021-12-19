@@ -41,7 +41,7 @@ class HomeViewmodelImpl implements HomeViewmodel {
       _destinationProjection,
       _sourcePoint,
       (a, b, c) =>
-          a != b &&
+          // a != b &&
           a is CoordinateSystem &&
           a.projection != null &&
           b is CoordinateSystem &&
