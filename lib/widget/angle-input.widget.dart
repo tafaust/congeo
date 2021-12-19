@@ -76,12 +76,14 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Flexible(
           fit: FlexFit.loose,
           child: TextField(
             controller: latController,
+            autofocus: false,
             decoration: const InputDecoration(
               labelText: 'Latitude',
               hintText: '0.0',
@@ -94,10 +96,12 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
             keyboardType: TextInputType.number,
           ),
         ),
+        const SizedBox(width: 16.0),
         Flexible(
           fit: FlexFit.loose,
           child: TextField(
             controller: lonController,
+            autofocus: false,
             decoration: const InputDecoration(
               labelText: 'Longitude',
               hintText: '0.0',

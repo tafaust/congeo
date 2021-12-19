@@ -3,7 +3,6 @@ import 'package:congeo/home.viewmodel.dart';
 import 'package:congeo/widget/angle-input.widget.dart';
 import 'package:congeo/widget/fluttermap.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:logger/logger.dart';
 import 'package:proj4dart/proj4dart.dart';
 
@@ -27,10 +26,8 @@ class HomeScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: StreamBuilder(
-              stream: _viewmodel.latLngSourcePoint,
-              builder: (context, AsyncSnapshot<LatLng> snapshot) =>
-                  FlutterMapWidget(point: snapshot.data),
+            child: FlutterMapWidget(
+              viewmodel: _viewmodel,
             ),
           ),
           Expanded(
@@ -40,12 +37,6 @@ class HomeScreen extends StatelessWidget {
               alignment: AlignmentDirectional.centerStart,
               children: [
                 Card(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  margin: const EdgeInsets.all(12.0),
-                  elevation: 4.0,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -109,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                       // DESTINATION CONVERSION PANEL
                       Expanded(
                         child: Container(
-                          color: Colors.white,
+                          color: Theme.of(context).backgroundColor,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             mainAxisSize: MainAxisSize.max,
@@ -182,10 +173,11 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   child: Icon(
                     Icons.compare_arrows,
                     size: 24.0,
+                    color: Theme.of(context).primaryColorDark,
                   ),
                   left: 42.0,
                 ),

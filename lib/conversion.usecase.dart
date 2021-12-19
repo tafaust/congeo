@@ -7,12 +7,4 @@ class ConversionUsecase {
   Point convert(Projection src, Projection dst, Point srcPoint) {
     return src.transform(dst, srcPoint);
   }
-
-  Point latlon2google(Point srcPoint) {
-    return convert(Projection.WGS84, Projection.GOOGLE, srcPoint);
-  }
-
-  Point google2latlon(Point srcPoint) {
-    return convert(Projection.GOOGLE, Projection.WGS84, srcPoint);
-  }
 }

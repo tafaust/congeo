@@ -41,20 +41,58 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String title = 'Geo converter';
+
+    const primary = Colors.blue;
+    const white = Colors.white;
+    const black = Colors.black;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: title,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: primary,
+        primaryColorDark: black,
+        primaryColorLight: white,
+        backgroundColor: white,
+        scaffoldBackgroundColor: white,
+
+        /// Input theming
+        inputDecorationTheme: const InputDecorationTheme(
+          isCollapsed: false,
+          isDense: true,
+          fillColor: white,
+          labelStyle: TextStyle(color: black),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              style: BorderStyle.solid,
+              color: black,
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              style: BorderStyle.solid,
+              color: primary,
+            ),
+          ),
+        ),
+
+        /// Card theming
+        cardTheme: const CardTheme(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          elevation: 4.0,
+          color: white,
+          margin: EdgeInsets.all(8.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+          ),
+          shadowColor: black,
+        ),
+
+        /// Icon theming
+        iconTheme: const IconThemeData(
+          color: white,
+          size: 24.0,
+        ),
       ),
       home: HomeScreen(title: title),
     );
