@@ -114,6 +114,7 @@ class _AngleInputWidgetState extends State<AngleInputWidget> {
             keyboardType: TextInputType.number,
           ),
         ),
+        const SizedBox(width: 16.0),
         GetLocationWidget(
           onLocation: onLocation,
         ),

@@ -1,4 +1,5 @@
 import 'package:congeo/home.screen.dart';
+import 'package:congeo/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:proj4dart/proj4dart.dart';
 
@@ -40,9 +41,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    const String title = 'Geo converter';
+    const String title = 'GeoCon – Geo-coordinate converter';
 
-    const primary = Colors.blue;
+    const primary = Colors.green;
     const white = Colors.white;
     const black = Colors.black;
 
@@ -51,10 +52,17 @@ class MyApp extends StatelessWidget {
       title: title,
       theme: ThemeData(
         primarySwatch: primary,
-        primaryColorDark: black,
-        primaryColorLight: white,
+        primaryColorDark: primary.shade800,
+        primaryColorLight: primary.shade200,
         backgroundColor: white,
         scaffoldBackgroundColor: white,
+        canvasColor: white,
+
+        /// Button theming
+        buttonTheme: const ButtonThemeData(
+          alignedDropdown: true,
+          textTheme: ButtonTextTheme.normal,
+        ),
 
         /// Input theming
         inputDecorationTheme: const InputDecorationTheme(
@@ -77,13 +85,13 @@ class MyApp extends StatelessWidget {
         ),
 
         /// Card theming
-        cardTheme: const CardTheme(
+        cardTheme: CardTheme(
           clipBehavior: Clip.antiAliasWithSaveLayer,
           elevation: 4.0,
-          color: white,
-          margin: EdgeInsets.all(8.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+          color: primary.shade200,
+          margin: kDefaultMargin,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(kDefaultBorderRadius),
           ),
           shadowColor: black,
         ),

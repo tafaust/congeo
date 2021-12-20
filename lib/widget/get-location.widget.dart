@@ -51,7 +51,7 @@ class _GetLocationState extends State<GetLocationWidget> {
                   ? const CircularProgressIndicator(
                       color: Colors.white,
                     )
-                  : const Text('Get'),
+                  : const Icon(Icons.gps_fixed),
               onPressed: _getLocation,
             )
           ],
